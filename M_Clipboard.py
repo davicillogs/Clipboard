@@ -2,8 +2,9 @@ import win32con
 from ctypes import wintypes, byref, windll
 import pyperclip as clipboard
 
+#creamos la clase principal del modulo 
 class Portapapeles :
-
+    #varible  que almacenara los valores
     clip = ["","","","",""]
 
     def __init__(self):
@@ -11,7 +12,7 @@ class Portapapeles :
       
 
 
-
+    #Funcion que registra la combinacion de teclas en windows
     def register_hotkey(self,key,valor):
         key = key.split('-')
         mod = 0
@@ -31,14 +32,14 @@ class Portapapeles :
     
     
 
-
+    #Funcion que copia el ultimo valor que hay en el portapapeles en la var clip
     def copy (self):
         self.clip.reverse()
         self.clip.pop()
         self.clip.reverse()
         self.clip.append(clipboard.paste())
         print (self.clip)
-
+    #Funciones para seleccionar el indice de la array en el cual queremos posicionarnos
     def val_1(self):
         clipboard.copy (self.clip[0])
         print (self.clip)
@@ -58,7 +59,7 @@ class Portapapeles :
     def val_5(self):
         clipboard.copy (self.clip[4])
         print (self.clip)
-
+    #funcion que detecta cuando se ha pulsado la combinacion registrada
     def handle_hotkey(self):
        
         msg = wintypes.MSG()
@@ -83,7 +84,7 @@ class Portapapeles :
             windll.user32.TranslateMessage(byref(msg))
             windll.user32.DispatchMessageA(byref(msg))
             
-
+    #funcion bucle que captura continuamente para ver si se pulsa la combinación
     def loop_clipboard (self):
 
         while True:
